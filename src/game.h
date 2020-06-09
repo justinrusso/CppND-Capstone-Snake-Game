@@ -1,6 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <chrono>
 #include <random>
 #include "SDL.h"
 #include "controller.h"
@@ -17,7 +18,7 @@ class Game {
 
  private:
   Snake snake;
-  SDL_Point food;
+  std::vector<SDL_Point> foods;
 
   std::random_device dev;
   std::mt19937 engine;
@@ -25,8 +26,11 @@ class Game {
   std::uniform_int_distribution<int> random_h;
 
   int score{0};
+  const int maxFood{4};
+  std::chrono::_V2::system_clock::time_point lastFoodPlacement;
 
-  void PlaceFood();
+  void PlaceFood(int amount);
+  void PlaceFood(SDL_Point &food);
   void Update();
 };
 

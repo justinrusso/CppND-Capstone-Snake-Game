@@ -7,7 +7,7 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
       engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)) {
-  PlaceFood();
+  PlaceFood(2);
 }
 
 void Game::Run(Controller const &controller, Renderer &renderer,
@@ -25,7 +25,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, snake);
     Update();
-    renderer.Render(snake, food);
+    renderer.Render(snake, foods);
 
     frame_end = SDL_GetTicks();
 
@@ -50,7 +50,16 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   }
 }
 
-void Game::PlaceFood() {
+void Game::PlaceFood(int amount) {
+  int addedCount = 0;
+  while (addedCount < amount) {
+    SDL_Point food = {};
+    PlaceFood(food);
+    foods.emplace_back(food);
+    addedCount++;
+  }
+}
+void Game::PlaceFood(SDL_Point &food) {
   int x, y;
   while (true) {
     x = random_w(engine);
@@ -60,6 +69,7 @@ void Game::PlaceFood() {
     if (!snake.SnakeCell(x, y)) {
       food.x = x;
       food.y = y;
+      lastFoodPlacement = std::chrono::system_clock::now();
       return;
     }
   }
@@ -74,12 +84,32 @@ void Game::Update() {
   int new_y = static_cast<int>(snake.head_y);
 
   // Check if there's food over here
-  if (food.x == new_x && food.y == new_y) {
-    score++;
-    PlaceFood();
-    // Grow snake and increase speed.
-    snake.GrowBody();
-    snake.speed += 0.02;
+  for (int i = 0; i < foods.size(); i++) {
+    auto &food = foods[i];
+    if (food.x == new_x && food.y == new_y) {
+      score++;
+
+      if (foods.size() == 1) {
+        PlaceFood(food);
+      } else {
+        foods.erase(foods.begin() + i);
+      }
+
+      // Grow snake and increase speed.
+      snake.GrowBody();
+      snake.speed += 0.02;
+    }
+
+    if (foods.size() < maxFood) {
+      auto secondsSinceFoodPlacement =
+        std::chrono::duration_cast<std::chrono::seconds>(
+          std::chrono::system_clock::now() - lastFoodPlacement
+        ).count();
+      
+      if (secondsSinceFoodPlacement > 4) {
+        PlaceFood(1);
+      }
+    }
   }
 }
 
