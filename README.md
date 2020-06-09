@@ -8,7 +8,11 @@ The Capstone Project gives you a chance to integrate what you've learned through
 
 In this project, you can build your own C++ application or extend this Snake game, following the principles you have learned throughout this Nanodegree Program. This project will demonstrate that you can independently create applications using a wide range of C++ features.
 
-## Dependencies for Running Locally
+## Development
+
+![Snake Game Code Structure](./assets/game_structure.jpg)
+
+### Dependencies for Running Locally
 
 - cmake >= 3.7
   - All OSes: [click here for installation instructions](https://cmake.org/install/)
@@ -24,7 +28,7 @@ In this project, you can build your own C++ application or extend this Snake gam
   - Mac: same deal as make - [install Xcode command line tools](https://developer.apple.com/xcode/features/)
   - Windows: recommend using [MinGW](http://www.mingw.org/)
 
-## Basic Build Instructions
+### Basic Build Instructions
 
 1. Clone this repo.
 2. Make a build directory in the top level directory: `mkdir build && cd build`
