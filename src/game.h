@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <chrono>
+#include <memory>
 #include <random>
 #include "SDL.h"
 #include "controller.h"
@@ -17,7 +18,7 @@ class Game {
   int GetSize() const;
 
  private:
-  Snake snake;
+  std::shared_ptr<Snake> snake;
   std::vector<SDL_Point> foods;
 
   std::random_device dev;
