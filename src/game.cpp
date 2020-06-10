@@ -3,7 +3,9 @@
 #include "SDL.h"
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
-    : snake(grid_width, grid_height),
+    : grid_width(grid_width),
+      grid_height(grid_height),
+      snake(grid_width, grid_height),
       engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)) {
@@ -18,14 +20,26 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   Uint32 frame_duration;
   int frame_count = 0;
   bool running = true;
+  bool exit = false;
 
-  while (running) {
+  while (!exit) {
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
-    controller.HandleInput(running, snake);
+    controller.HandleInput(running, exit, snake);
     Update();
     renderer.Render(snake, foods);
+
+    // Wait for specific input to restart
+    if (!snake.alive) {
+      running = false;
+    }
+    while (!snake.alive && !exit) {
+      controller.HandleInput(running, exit, snake);
+      if (running) {
+        Reset();
+      }
+    }
 
     frame_end = SDL_GetTicks();
 
@@ -111,6 +125,16 @@ void Game::Update() {
       }
     }
   }
+}
+
+void Game::Reset() {
+  while (foods.size() > 1) {
+    foods.erase(foods.begin());
+  }
+  PlaceFood(foods[0]);
+
+  snake = Snake(grid_width, grid_height);
+  score = 0;
 }
 
 int Game::GetScore() const { return score; }

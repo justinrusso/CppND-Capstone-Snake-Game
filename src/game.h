@@ -25,6 +25,9 @@ class Game {
   std::uniform_int_distribution<int> random_w;
   std::uniform_int_distribution<int> random_h;
 
+  int grid_width;
+  int grid_height;
+
   int score{0};
   const int maxFood{4};
   std::chrono::_V2::system_clock::time_point lastFoodPlacement;
@@ -32,6 +35,7 @@ class Game {
   void PlaceFood(int amount);
   void PlaceFood(SDL_Point &food);
   void Update();
+  void Reset();
 };
 
 #endif
