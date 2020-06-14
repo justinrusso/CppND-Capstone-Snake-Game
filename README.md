@@ -2,6 +2,12 @@
 
 This project is based off of a starter repo for the Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). The code for this repo was inspired by [this](https://codereview.stackexchange.com/questions/212296/snake-game-in-c-with-sdl) excellent StackOverflow post and set of responses.
 
+## Gameplay
+
+To navigate the snake, use the arrow keys on your keyboard. Each food eaten increases your score.
+
+The goal of the game is to avoid running into your snake and getting the highest score possible. If you fail, you may press `space` to restart the game.
+
 ![Snake Game gameplay](./assets/snake_game.gif)
 
 ## Development
