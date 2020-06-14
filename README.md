@@ -48,7 +48,7 @@ The project must satisfy all criteria for the "README" and "Compiling and Testin
 ### Loops, Functions, & IO
 
 - [x] The project demonstrates an understanding of C++ functions and control structures.
-- [ ] The project reads data from a file and process the data, or the program writes data to a file.
+- [x] The project reads data from a file and process the data, or the program writes data to a file.
 - [ ] The project accepts user input and processes the input.
 
 ### Object Oriented Programming

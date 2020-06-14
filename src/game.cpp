@@ -31,8 +31,10 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     renderer.Render(snake, foods);
 
     // Wait for specific input to restart
+    // and update high score if neccesary
     if (!snake->alive) {
       running = false;
+      UpdateScore();
     }
     while (!snake->alive && !exit) {
       controller.HandleInput(running, exit, snake);
@@ -139,3 +141,19 @@ void Game::Reset() {
 
 int Game::GetScore() const { return score; }
 int Game::GetSize() const { return snake->size; }
+
+void Game::UpdateScore() {
+  if (GetScore() > highScore.getProperty("score")) {
+    highScore.setProperty("score", GetScore());
+    std::cout << "New high score!" << "\n";
+  }
+  std::cout << "Score: " << GetScore() << "\n";
+
+  if (GetSize() > highScore.getProperty("size")) {
+    highScore.setProperty("size", GetSize());
+    std::cout << "New largest size!" << "\n";
+  }
+  std::cout << "Size: " << GetSize() << "\n";
+
+  highScore.writeData();
+}

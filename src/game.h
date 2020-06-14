@@ -6,6 +6,7 @@
 #include <random>
 #include "SDL.h"
 #include "controller.h"
+#include "gamedata.h"
 #include "renderer.h"
 #include "snake.h"
 
@@ -17,7 +18,11 @@ class Game {
   int GetScore() const;
   int GetSize() const;
 
+  void UpdateScore();
+
  private:
+  GameData highScore{"high-score.txt"};
+
   std::shared_ptr<Snake> snake;
   std::vector<SDL_Point> foods;
 
